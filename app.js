@@ -58,6 +58,28 @@ function clearNightForm() {
   renderFoodList();
 }
 
+
+function isValid24HourTime(value) {
+  return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+}
+
+function normalizeMedicationInput(raw) {
+  return String(raw || '').trim();
+}
+
+function sanitizeMedicationTyping(raw) {
+  let v = String(raw || '').replace(/[^\d:]/g, '');
+  if (v.length > 5) v = v.slice(0, 5);
+  if (v.length >= 2 && !v.includes(':')) {
+    v = v.slice(0, 2) + ':' + v.slice(2);
+  }
+  if (v.indexOf(':') !== -1) {
+    const parts = v.split(':');
+    v = parts[0].slice(0, 2) + ':' + (parts[1] || '').slice(0, 2);
+  }
+  return v;
+}
+
 function clearDayForm() {
   $('wakeTime').value = '';
   $('d11').value = '';
@@ -71,9 +93,12 @@ function saveNight() {
   const date = $('nightDate').value;
   if (!date) return alert('Please choose a night date.');
 
+  const medTime = normalizeMedicationInput($('medTime').value);
+  if (!naMode && !isValid24HourTime(medTime)) return alert('Enter medication time as HH:MM in 24-hour time, for example 21:30, or use NA.');
+
   const idx = entries.findIndex(e => e.date === date);
   const current = idx >= 0 ? entries[idx] : { date };
-  current.medication = naMode ? 'NA' : ($('medTime').value || '');
+  current.medication = naMode ? 'NA' : medTime;
   current.didNotTake = naMode;
   current.foods = [...tempFoods];
   current.updatedAt = new Date().toISOString();
@@ -263,6 +288,25 @@ $('markNA').addEventListener('click', () => {
   naMode = true;
   $('medTime').value = '';
   $('naStatus').textContent = 'Saved as NA / did not take.';
+});
+
+$('medTime').addEventListener('input', (e) => {
+  const cleaned = sanitizeMedicationTyping(e.target.value);
+  if (e.target.value !== cleaned) e.target.value = cleaned;
+  if (cleaned.length) {
+    naMode = false;
+    $('naStatus').textContent = '';
+  }
+});
+
+$('medTime').addEventListener('blur', () => {
+  const value = normalizeMedicationInput($('medTime').value);
+  if (!value) return;
+  if (!isValid24HourTime(value)) {
+    $('naStatus').textContent = 'Use HH:MM in 24-hour time, for example 21:30.';
+  } else {
+    $('naStatus').textContent = '';
+  }
 });
 
 $('addFood').addEventListener('click', () => {

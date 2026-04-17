@@ -1,11 +1,11 @@
 Santiago’s Seroquel XR Dose at 300mg
 
 What this app does
-- Tracks nightly Seroquel entry time
+- Tracks nightly Seroquel entry time in 24-hour format only
 - Allows NA / did not take
-- Tracks late-night food time and what it was
-- Tracks next-day wake-up time
-- Tracks drowsiness at 11 AM, 12 PM, 3 PM, and 5 PM on a 0-5 scale
+- Tracks late-night food time in 24-hour format and what it was
+- Tracks next-day wake-up time in 24-hour format
+- Tracks drowsiness at 11:00, 12:00, 15:00, and 17:00 on a 0-5 scale
 - Saves data locally on the device/browser
 - Exports CSV or JSON
 - Lets you download a recurring reminder calendar file (.ics)
@@ -24,3 +24,6 @@ Free hosting
 Important note
 - This app is a personal tracker, not medical advice.
 - If you want your logs available across multiple devices, the next version would need a free backend or Google Sheets connection.
+
+
+Medication time entry is strict: enter exactly HH:MM in 24-hour time (example 21:30) or mark NA / did not take.

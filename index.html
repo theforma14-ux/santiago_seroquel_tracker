@@ -12,20 +12,22 @@
 <body>
   <header>
     <h1>Santiago’s Seroquel XR Dose at 300mg</h1>
-    <p class="sub">Simple daily tracking. Stored privately on your device.</p>
+    <p class="sub">Simple daily tracking in 24-hour time only. Stored privately on your device.</p>
   </header>
 
   <main>
     <section class="card">
       <h2>Night dose</h2>
+      <p class="note">Use 24-hour time only everywhere in this app.</p>
       <div class="grid two">
         <label>
           Date for this night
           <input type="date" id="nightDate" />
         </label>
         <label>
-          Medication time
-          <input type="time" id="medTime" />
+          Medication time (24-hour)
+          <input type="text" id="medTime" inputmode="numeric" autocomplete="off" spellcheck="false" maxlength="5" placeholder="21:30" aria-describedby="medTimeHelp" />
+          <small id="medTimeHelp" class="note">Enter exactly HH:MM in 24-hour time, for example 21:30.</small>
         </label>
       </div>
       <div class="inline-row">
@@ -36,7 +38,7 @@
       <h3>Late night eating</h3>
       <div class="grid three">
         <label>
-          Food time
+          Food time (24-hour)
           <input type="time" id="foodTime" />
         </label>
         <label class="span-2">
@@ -63,7 +65,7 @@
           <input type="date" id="dayDate" />
         </label>
         <label>
-          Wake-up time
+          Wake-up time (24-hour)
           <input type="time" id="wakeTime" />
         </label>
       </div>
