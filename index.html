@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Santiago’s Seroquel XR Dose at 300mg</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1f4b5c" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Santiago’s Seroquel XR Dose at 300mg</h1>
+    <p class="sub">Simple daily tracking. Stored privately on your device.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Night dose</h2>
+      <div class="grid two">
+        <label>
+          Date for this night
+          <input type="date" id="nightDate" />
+        </label>
+        <label>
+          Medication time
+          <input type="time" id="medTime" />
+        </label>
+      </div>
+      <div class="inline-row">
+        <button id="markNA" class="secondary">Mark NA / did not take</button>
+        <span id="naStatus" class="note"></span>
+      </div>
+
+      <h3>Late night eating</h3>
+      <div class="grid three">
+        <label>
+          Food time
+          <input type="time" id="foodTime" />
+        </label>
+        <label class="span-2">
+          What it was
+          <input type="text" id="foodWhat" placeholder="Example: pizza, ice cream, fries" />
+        </label>
+      </div>
+      <div class="inline-row">
+        <button id="addFood" class="secondary">Add food item</button>
+      </div>
+      <ul id="foodList" class="chips"></ul>
+
+      <div class="inline-row top-gap">
+        <button id="saveNight">Save night entry</button>
+        <button id="resetNight" class="secondary">Clear form</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Next day check-in</h2>
+      <div class="grid two">
+        <label>
+          Morning date
+          <input type="date" id="dayDate" />
+        </label>
+        <label>
+          Wake-up time
+          <input type="time" id="wakeTime" />
+        </label>
+      </div>
+
+      <p class="note">Drowsiness scale: 5 = super tired, 0 = not tired at all.</p>
+      <div class="grid four">
+        <label>
+          11:00 AM
+          <input type="number" id="d11" min="0" max="5" step="1" placeholder="0-5" />
+        </label>
+        <label>
+          12:00 PM
+          <input type="number" id="d12" min="0" max="5" step="1" placeholder="0-5" />
+        </label>
+        <label>
+          3:00 PM
+          <input type="number" id="d15" min="0" max="5" step="1" placeholder="0-5" />
+        </label>
+        <label>
+          5:00 PM
+          <input type="number" id="d17" min="0" max="5" step="1" placeholder="0-5" />
+        </label>
+      </div>
+
+      <div class="inline-row top-gap">
+        <button id="saveDay">Save day entry</button>
+        <button id="resetDay" class="secondary">Clear form</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Charts and doctor summary</h2>
+      <p class="note">Use this to see trends and create a simple summary you can share with your doctor.</p>
+      <div class="grid three">
+        <label>
+          Start date
+          <input type="date" id="chartStart" />
+        </label>
+        <label>
+          End date
+          <input type="date" id="chartEnd" />
+        </label>
+        <label>
+          Quick range
+          <select id="quickRange">
+            <option value="all">All data</option>
+            <option value="14">Last 14 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="60">Last 60 days</option>
+            <option value="90">Last 90 days</option>
+          </select>
+        </label>
+      </div>
+      <div class="inline-row top-gap wrap">
+        <button id="refreshCharts">Refresh charts</button>
+        <button id="printReport" class="secondary">Print / save doctor summary</button>
+      </div>
+
+      <div class="stats-grid top-gap" id="summaryStats"></div>
+
+      <div class="chart-card top-gap">
+        <div class="chart-head">
+          <h3>Medication taken vs NA</h3>
+          <span class="note">Green = taken, red = NA</span>
+        </div>
+        <canvas id="medChart" width="860" height="280"></canvas>
+      </div>
+
+      <div class="chart-card top-gap">
+        <div class="chart-head">
+          <h3>Average drowsiness by time of day</h3>
+          <span class="note">0 = not tired, 5 = super tired</span>
+        </div>
+        <canvas id="avgDrowsinessChart" width="860" height="280"></canvas>
+      </div>
+
+      <div class="chart-card top-gap">
+        <div class="chart-head">
+          <h3>Drowsiness trend by day</h3>
+          <span class="note">Shows the daily average of the checks you entered</span>
+        </div>
+        <canvas id="dailyTrendChart" width="860" height="300"></canvas>
+      </div>
+
+      <div class="chart-card top-gap">
+        <div class="chart-head">
+          <h3>Wake-up time trend</h3>
+          <span class="note">Earlier = lower on the chart, later = higher</span>
+        </div>
+        <canvas id="wakeChart" width="860" height="300"></canvas>
+      </div>
+
+      <div class="top-gap">
+        <h3>Doctor summary notes</h3>
+        <div id="doctorSummary" class="summary-box"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Reminders</h2>
+      <p class="note">Set reminder times, then download a calendar file for your iPhone. This is the most dependable fully free reminder method.</p>
+      <div class="grid three">
+        <label>
+          Medication reminder
+          <input type="time" id="remMed" value="21:30" />
+        </label>
+        <label>
+          Food log reminder
+          <input type="time" id="remFood" value="22:30" />
+        </label>
+        <label>
+          Wake-up reminder
+          <input type="time" id="remWake" value="08:00" />
+        </label>
+        <label>
+          11 AM check
+          <input type="time" id="rem11" value="11:00" />
+        </label>
+        <label>
+          12 PM check
+          <input type="time" id="rem12" value="12:00" />
+        </label>
+        <label>
+          3 PM check
+          <input type="time" id="rem15" value="15:00" />
+        </label>
+        <label>
+          5 PM check
+          <input type="time" id="rem17" value="17:00" />
+        </label>
+      </div>
+      <div class="inline-row top-gap wrap">
+        <button id="downloadICS">Download reminder calendar file</button>
+        <button id="saveReminderSettings" class="secondary">Save reminder times</button>
+      </div>
+      <ol class="note steps">
+        <li>Open the downloaded .ics file on your iPhone.</li>
+        <li>Choose to add the reminders to Calendar.</li>
+        <li>Allow alert notifications for Calendar if needed.</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <div class="inline-row between">
+        <h2>Saved entries</h2>
+        <div class="inline-row wrap">
+          <button id="exportCSV" class="secondary">Export CSV</button>
+          <button id="exportJSON" class="secondary">Export JSON</button>
+          <button id="clearAll" class="danger">Clear all data</button>
+        </div>
+      </div>
+      <div id="entries"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
