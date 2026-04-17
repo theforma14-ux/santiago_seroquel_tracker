@@ -71,19 +71,19 @@
       <p class="note">Drowsiness scale: 5 = super tired, 0 = not tired at all.</p>
       <div class="grid four">
         <label>
-          11:00 AM
+          11:00
           <input type="number" id="d11" min="0" max="5" step="1" placeholder="0-5" />
         </label>
         <label>
-          12:00 PM
+          12:00
           <input type="number" id="d12" min="0" max="5" step="1" placeholder="0-5" />
         </label>
         <label>
-          3:00 PM
+          15:00
           <input type="number" id="d15" min="0" max="5" step="1" placeholder="0-5" />
         </label>
         <label>
-          5:00 PM
+          17:00
           <input type="number" id="d17" min="0" max="5" step="1" placeholder="0-5" />
         </label>
       </div>
@@ -91,74 +91,6 @@
       <div class="inline-row top-gap">
         <button id="saveDay">Save day entry</button>
         <button id="resetDay" class="secondary">Clear form</button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Charts and doctor summary</h2>
-      <p class="note">Use this to see trends and create a simple summary you can share with your doctor.</p>
-      <div class="grid three">
-        <label>
-          Start date
-          <input type="date" id="chartStart" />
-        </label>
-        <label>
-          End date
-          <input type="date" id="chartEnd" />
-        </label>
-        <label>
-          Quick range
-          <select id="quickRange">
-            <option value="all">All data</option>
-            <option value="14">Last 14 days</option>
-            <option value="30" selected>Last 30 days</option>
-            <option value="60">Last 60 days</option>
-            <option value="90">Last 90 days</option>
-          </select>
-        </label>
-      </div>
-      <div class="inline-row top-gap wrap">
-        <button id="refreshCharts">Refresh charts</button>
-        <button id="printReport" class="secondary">Print / save doctor summary</button>
-      </div>
-
-      <div class="stats-grid top-gap" id="summaryStats"></div>
-
-      <div class="chart-card top-gap">
-        <div class="chart-head">
-          <h3>Medication taken vs NA</h3>
-          <span class="note">Green = taken, red = NA</span>
-        </div>
-        <canvas id="medChart" width="860" height="280"></canvas>
-      </div>
-
-      <div class="chart-card top-gap">
-        <div class="chart-head">
-          <h3>Average drowsiness by time of day</h3>
-          <span class="note">0 = not tired, 5 = super tired</span>
-        </div>
-        <canvas id="avgDrowsinessChart" width="860" height="280"></canvas>
-      </div>
-
-      <div class="chart-card top-gap">
-        <div class="chart-head">
-          <h3>Drowsiness trend by day</h3>
-          <span class="note">Shows the daily average of the checks you entered</span>
-        </div>
-        <canvas id="dailyTrendChart" width="860" height="300"></canvas>
-      </div>
-
-      <div class="chart-card top-gap">
-        <div class="chart-head">
-          <h3>Wake-up time trend</h3>
-          <span class="note">Earlier = lower on the chart, later = higher</span>
-        </div>
-        <canvas id="wakeChart" width="860" height="300"></canvas>
-      </div>
-
-      <div class="top-gap">
-        <h3>Doctor summary notes</h3>
-        <div id="doctorSummary" class="summary-box"></div>
       </div>
     </section>
 
@@ -179,19 +111,19 @@
           <input type="time" id="remWake" value="08:00" />
         </label>
         <label>
-          11 AM check
+          11:00 check
           <input type="time" id="rem11" value="11:00" />
         </label>
         <label>
-          12 PM check
+          12:00 check
           <input type="time" id="rem12" value="12:00" />
         </label>
         <label>
-          3 PM check
+          15:00 check
           <input type="time" id="rem15" value="15:00" />
         </label>
         <label>
-          5 PM check
+          17:00 check
           <input type="time" id="rem17" value="17:00" />
         </label>
       </div>
