@@ -1,6 +1,4 @@
 const STORAGE_KEY = 'seroquel_tracker_entries_v1';
-const SETTINGS_KEY = 'seroquel_tracker_settings_v1';
-
 let tempFoods = [];
 let naMode = false;
 
@@ -20,21 +18,9 @@ function saveEntries(entries) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
 }
 
-function loadSettings() {
-  return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
-}
-
-function saveSettings(settings) {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-}
-
 function setDefaults() {
   $('nightDate').value = todayLocal();
   $('dayDate').value = todayLocal();
-  const settings = loadSettings();
-  ['remMed','remFood','remWake','rem11','rem12','rem15','rem17'].forEach(id => {
-    if (settings[id]) $(id).value = settings[id];
-  });
 }
 
 function renderFoodList() {
@@ -232,58 +218,6 @@ function downloadFile(name, content, type) {
   URL.revokeObjectURL(url);
 }
 
-function pad(n) {
-  return String(n).padStart(2, '0');
-}
-
-function makeICSDate(date, time) {
-  const [y, m, d] = date.split('-').map(Number);
-  const [hh, mm] = time.split(':').map(Number);
-  return `${y}${pad(m)}${pad(d)}T${pad(hh)}${pad(mm)}00`;
-}
-
-function buildICS() {
-  const startDate = todayLocal();
-  const items = [
-    ['Medication reminder', $('remMed').value],
-    ['Late night food log', $('remFood').value],
-    ['Wake-up log', $('remWake').value],
-    ['11:00 drowsiness check', $('rem11').value],
-    ['12:00 drowsiness check', $('rem12').value],
-    ['15:00 drowsiness check', $('rem15').value],
-    ['17:00 drowsiness check', $('rem17').value],
-  ];
-
-  let lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//OpenAI//Seroquel Tracker//EN',
-    'CALSCALE:GREGORIAN',
-  ];
-
-  items.forEach(([title, time], idx) => {
-    const dt = makeICSDate(startDate, time);
-    lines.push(
-      'BEGIN:VEVENT',
-      `UID:seroquel-${idx}-${Date.now()}@tracker.local`,
-      `DTSTAMP:${dt}`,
-      `DTSTART:${dt}`,
-      'DURATION:PT5M',
-      `RRULE:FREQ=DAILY`,
-      `SUMMARY:${title}`,
-      'BEGIN:VALARM',
-      'TRIGGER:PT0M',
-      'ACTION:DISPLAY',
-      `DESCRIPTION:${title}`,
-      'END:VALARM',
-      'END:VEVENT'
-    );
-  });
-
-  lines.push('END:VCALENDAR');
-  return lines.join('\r\n');
-}
-
 $('markNA').addEventListener('click', () => {
   naMode = true;
   $('medTime').value = '';
@@ -325,15 +259,6 @@ $('resetNight').addEventListener('click', clearNightForm);
 $('resetDay').addEventListener('click', clearDayForm);
 $('exportCSV').addEventListener('click', exportCSV);
 $('exportJSON').addEventListener('click', exportJSON);
-$('downloadICS').addEventListener('click', () => {
-  downloadFile('seroquel-reminders.ics', buildICS(), 'text/calendar');
-});
-$('saveReminderSettings').addEventListener('click', () => {
-  const settings = {};
-  ['remMed','remFood','remWake','rem11','rem12','rem15','rem17'].forEach(id => settings[id] = $(id).value);
-  saveSettings(settings);
-  alert('Reminder times saved.');
-});
 $('clearAll').addEventListener('click', () => {
   if (!confirm('Clear all saved tracker data on this device?')) return;
   localStorage.removeItem(STORAGE_KEY);

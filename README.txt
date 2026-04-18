@@ -8,14 +8,12 @@ What this app does
 - Tracks drowsiness at 11:00, 12:00, 15:00, and 17:00 on a 0-5 scale
 - Saves data locally on the device/browser
 - Exports CSV or JSON
-- Lets you download a recurring reminder calendar file (.ics)
 
 How to use
 1. Open index.html in a browser, or deploy the folder to Vercel or GitHub Pages.
 2. Enter the night dose info and save it.
 3. Enter the next-day check-in and save it.
-4. In Reminders, adjust times and download the .ics file.
-5. Open the .ics file on your iPhone and add it to Calendar.
+4. Export CSV or JSON whenever you want to share your records.
 
 Free hosting
 - Vercel Hobby is free for personal projects.
